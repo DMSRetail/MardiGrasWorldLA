@@ -6,7 +6,8 @@
      2. places it right after Lightspeed's built-in footer,
      3. hides the built-in footer (only once the new one is in place, so if
         this file ever fails to load, the built-in footer still shows),
-     4. scrolls to sections like #mgw-contact when a link points at them.
+     4. scrolls to sections like #mgw-contact when a link points at them,
+     5. restyles Lightspeed's Contact Us section to match the site.
    To change links, hours or the phone number, edit SETTINGS below, upload
    the file to GitHub again, then open the purge link (see the body code).
    ===================================================================== */
@@ -91,6 +92,38 @@
     '#mgw-footer .mgw-f__legal{display:flex;flex-wrap:wrap;gap:8px 20px}'
   ].join('\n');
 
+
+  /* ---------- Contact Us restyle ----------
+     Restyles Lightspeed's own Contact Us section (homepage) to match the site.
+     It only touches pages that have that section. The readable version with notes
+     is 9-contact-restyle.html. */
+  var CONTACT_CSS = [
+    '.section__contact-us{background:var(--mgw-lavender)!important;border-top:3px solid var(--mgw-ink);color:var(--mgw-ink)}',
+    '.section__contact-us .section__container{margin-top:clamp(56px,7vw,96px)!important;margin-bottom:clamp(56px,7vw,96px)!important}',
+    '.section__contact-us .section__content{width:100%!important;max-width:1264px!important}',
+    '.section__contact-us .section__content>.section__grid{display:flex!important;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:32px 56px!important}',
+    '.section__contact-us .section__content>.section__grid>div:first-child{flex:1 1 360px;min-width:0;margin:0!important;container-type:inline-size}',
+    '.section__contact-us .section__content>.section__grid>div:last-child{flex:1 1 380px;min-width:0;max-width:600px}',
+    '.section__contact-us h1{margin:0!important;font-family:var(--mgw-font-display)!important;font-weight:900!important;font-stretch:125%;font-variation-settings:"wdth" 125;text-transform:uppercase;font-size:min(clamp(40px,5.4vw,84px),11.5cqi)!important;line-height:0.9!important;letter-spacing:-0.045em!important;color:var(--mgw-ink)!important;text-align:left!important;overflow-wrap:normal!important;word-break:normal!important}',
+    '.section__contact-us .section__content>.section__grid>div:first-child p{margin:0!important;font-family:var(--mgw-font-serif)!important;font-style:italic!important;font-weight:400!important;font-size:min(clamp(40px,5.4vw,84px),11.5cqi)!important;line-height:0.95!important;letter-spacing:-0.01em!important;color:var(--mgw-ink)!important;text-align:left!important}',
+    '.section__contact-us form{display:flex!important;flex-wrap:wrap;gap:16px}',
+    '.section__contact-us form>div{flex:1 1 100%;min-width:0;margin:0!important}',
+    '.section__contact-us form>div:nth-of-type(1),.section__contact-us form>div:nth-of-type(2){flex:1 1 220px}',
+    '.section__contact-us .contact-us-label{font-family:var(--mgw-font-body)!important;font-size:14px!important;font-weight:900!important;color:var(--mgw-ink)!important}',
+    '.section__contact-us .contact-us-label + span{font-size:12px!important;color:var(--mgw-ink)!important;opacity:0.75}',
+    '.section__contact-us form>div input,.section__contact-us form>div textarea{box-sizing:border-box!important;width:100%!important;height:56px!important;margin:6px 0 0!important;padding:0 20px!important;border:3px solid var(--mgw-ink)!important;border-radius:999px!important;background:var(--mgw-paper)!important;color:var(--mgw-ink)!important;font-family:var(--mgw-font-body)!important;font-size:16px!important;font-style:normal!important;box-shadow:none!important}',
+    '.section__contact-us form>div textarea{height:auto!important;min-height:150px!important;padding:16px 20px!important;border-radius:22px!important;resize:vertical}',
+    '.section__contact-us form>div input::placeholder,.section__contact-us form>div textarea::placeholder{color:var(--mgw-muted);opacity:0.7;font-style:normal}',
+    '.section__contact-us form>div input:focus-visible,.section__contact-us form>div textarea:focus-visible{outline:3px solid var(--mgw-purple)!important;outline-offset:2px}',
+    '.section__contact-us form>div:last-of-type{margin-top:4px!important;gap:14px 20px!important;align-items:flex-start!important}',
+    '@media (min-width:768px){.section__contact-us form>div:last-of-type{align-items:center!important}}',
+    '.section__contact-us .section__button{flex:none;width:auto!important;min-width:0!important;height:56px!important;padding:0 32px!important;border:3px solid var(--mgw-ink)!important;border-radius:999px!important;background:var(--mgw-ink)!important;color:var(--mgw-paper)!important;transition:transform 0.15s ease,box-shadow 0.15s ease,background-color 0.15s ease,color 0.15s ease}',
+    '.section__contact-us .section__button *{filter:none!important;color:inherit!important;background:transparent!important;font-family:var(--mgw-font-body)!important;font-size:16px!important;font-weight:900!important;letter-spacing:0!important;text-transform:none!important}',
+    '.section__contact-us .section__button:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--mgw-ink);background:var(--mgw-green)!important;color:var(--mgw-ink)!important}',
+    '.section__contact-us .section__button:focus-visible{outline:3px solid var(--mgw-purple);outline-offset:3px}',
+    '.section__contact-us form>div:last-of-type p{font-size:13px!important;line-height:1.45!important;color:var(--mgw-ink)!important}'
+  ].join('\n');
+
   /* ---------- Helpers ---------- */
   // Makes text safe to drop into HTML (so an "&" in a name can't break the page)
   function esc(text) {
@@ -154,7 +187,7 @@
   /* ---------- Put it on the page (and keep it there) ---------- */
   var style = document.createElement('style');
   style.id = 'mgw-footer-css';
-  style.textContent = CSS;
+  style.textContent = CSS + '\n' + CONTACT_CSS;
   document.head.appendChild(style);
 
   var footer = null;
