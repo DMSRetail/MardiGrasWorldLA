@@ -173,6 +173,8 @@
     var hash = window.location.hash;
     if (hash.indexOf('#mgw-') !== 0 || jumpedFor === window.location.href) return;
     var target = document.getElementById(hash.slice(1));
+    // "Contact us" (#mgw-contact) also finds Lightspeed's own Contact Us section
+    if (!target && hash === '#mgw-contact') target = document.querySelector('.section__contact-us');
     if (!target) return;
     jumpedFor = window.location.href;
     var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
